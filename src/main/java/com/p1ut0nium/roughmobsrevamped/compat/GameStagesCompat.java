@@ -15,7 +15,6 @@ import java.util.HashMap;
 import com.p1ut0nium.roughmobsrevamped.config.RoughConfig;
 import com.p1ut0nium.roughmobsrevamped.reference.Constants;
 
-import net.darkhax.gamestages.GameStageHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 
@@ -59,53 +58,25 @@ public abstract class GameStagesCompat {
 	
 	public static void syncPlayerGameStages(ServerPlayerEntity player) {
 		
-		if (registered) {
-			
-			GameStageHelper.syncPlayer(player);
-			
-			// put stuff into inner map
-			playerStages.put(Constants.PLAYER_EQUIPMENT_STAGE, GameStageHelper.hasAnyOf(player, Constants.ROUGHMOBSALL, Constants.ROUGHMOBSEQUIP));
-			playerStages.put(Constants.PLAYER_ABILITIES_STAGE, GameStageHelper.hasAnyOf(player, Constants.ROUGHMOBSALL, Constants.ROUGHMOBSABILS));
-			playerStages.put(Constants.PLAYER_BOSS_STAGE, GameStageHelper.hasAnyOf(player, Constants.ROUGHMOBSALL, Constants.ROUGHMOBSBOSS));
-			playerStages.put(Constants.PLAYER_ENCHANT_STAGE, GameStageHelper.hasAnyOf(player, Constants.ROUGHMOBSALL, Constants.ROUGHMOBSENCHANT));
-			
-			// put players into outer map
-			players.put(player, playerStages);
-		}
 	}
 	
 	public static Boolean useEquipmentStage() {
-		if (registered) {
-			return useEquipmentStage;
-		}
-		return false;
+    return false;
 	}
 
 	public static Boolean useAllStages() {
-		if (registered) {
-			return useAllStages;
-		}
 		return false;
 	}
 
 	public static Boolean useBossStage() {
-		if (registered) {
-			return useBossStage;
-		} 
 		return false;
 	}
 
 	public static Boolean useEnchantStage() {
-		if (registered) {
-			return useEnchantStage;
-		}
 		return false;
 	}
 
 	public static Boolean useAbilitiesStage() {
-		if (registered) {
-			return useAbilitiesStage;
-		}
 		return false;
 	}
 }

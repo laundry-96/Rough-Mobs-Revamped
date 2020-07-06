@@ -17,13 +17,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import com.p1ut0nium.roughmobsrevamped.compat.GameStagesCompat;
 import com.p1ut0nium.roughmobsrevamped.config.EquipmentConfig;
 import com.p1ut0nium.roughmobsrevamped.config.RoughConfig;
 import com.p1ut0nium.roughmobsrevamped.core.RoughMobsRevamped;
 import com.p1ut0nium.roughmobsrevamped.reference.Constants;
 
-import net.darkhax.gamestages.GameStageHelper;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -145,15 +143,7 @@ public class EquipHelper {
 			// Get nearest player to the spawned mob
 			PlayerEntity playerClosest = boss.world.getClosestPlayer(boss, -1.0D);
 			
-			// Get all Game Stage related info
-			enchantStageEnabled = GameStagesCompat.useEnchantStage();			
-			
-			// Test to see if player has enchantment stage unlocked
-			if (enchantStageEnabled) {
-				playerHasEnchantStage = GameStageHelper.hasAnyOf((ServerPlayerEntity) playerClosest, Constants.ROUGHMOBSALL, Constants.ROUGHMOBSENCHANT);
-			} else {
-				playerHasEnchantStage = false;
-			}
+      playerHasEnchantStage = false;
 			
 			EquipmentPool[] pools = new EquipmentPool[] {
 				poolMainhand, poolOffhand, poolBoots, poolLeggings, poolChestplate, poolHelmet
