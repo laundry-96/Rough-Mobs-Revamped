@@ -32,7 +32,7 @@ public class RoughAISunlightBurnGoal extends Goal {
 	protected Consumer<LivingEntity> consumer;
 
 	public RoughAISunlightBurnGoal(LivingEntity entity, boolean helmetMode) {
-		logger.info("We have created a sunlight burning goal");
+
 		this.entity = entity;
 		this.helmetMode = helmetMode;
 		this.setMutexFlags(EnumSet.of(Goal.Flag.JUMP, Goal.Flag.MOVE, Goal.Flag.LOOK, Goal.Flag.TARGET));
