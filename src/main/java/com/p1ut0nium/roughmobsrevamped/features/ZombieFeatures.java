@@ -13,9 +13,7 @@ package com.p1ut0nium.roughmobsrevamped.features;
 import java.util.List;
 
 import com.p1ut0nium.roughmobsrevamped.config.RoughConfig;
-import com.p1ut0nium.roughmobsrevamped.entity.ai.goal.RoughAIBreakBlocksGoal;
-import com.p1ut0nium.roughmobsrevamped.entity.ai.goal.RoughAILeapAtTargetChancedGoal;
-import com.p1ut0nium.roughmobsrevamped.entity.ai.goal.RoughAISunlightBurnGoal;
+import com.p1ut0nium.roughmobsrevamped.entity.ai.goal.*;
 import com.p1ut0nium.roughmobsrevamped.misc.BossHelper.BossApplier;
 import com.p1ut0nium.roughmobsrevamped.misc.EquipHelper.EquipmentApplier;
 import com.p1ut0nium.roughmobsrevamped.misc.FeatureHelper;
@@ -31,6 +29,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.monster.ZombieEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.Effects;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -131,18 +130,22 @@ public class ZombieFeatures extends EntityFeatures {
 		
 		if (!(entity instanceof MobEntity))
 			return;
-		
-		if (leapChance > 0)
-			goalSelector.addGoal(1, new RoughAILeapAtTargetChancedGoal(entity, leapHeight, leapChance));
-		
-		if (babyBurn && entity instanceof ZombieEntity && ((ZombieEntity)entity).isChild() && !entity.isImmuneToFire())
-			goalSelector.addGoal(0, new RoughAISunlightBurnGoal(entity, false));
-		
-		if (helmetBurn)
-			goalSelector.addGoal(0, new RoughAISunlightBurnGoal(entity, true));
 
-		if (allowedBreakBlocks.size() > 0)
-			goalSelector.addGoal(1, new RoughAIBreakBlocksGoal(entity, 8, allowedBreakBlocks));
+		targetSelector.addGoal(0, new RoughAIAlwaysAggressiveGoal(entity, PlayerEntity.class, false, 500.0));
+		goalSelector.addGoal(0, new RoughAIPillarGoal(entity, 50));
+		goalSelector.addGoal(0, new RoughAIBridgeGoal(entity, 50));
+		
+//		if (leapChance > 0)
+//			goalSelector.addGoal(1, new RoughAILeapAtTargetChancedGoal(entity, leapHeight, leapChance));
+//
+//		if (babyBurn && entity instanceof ZombieEntity && ((ZombieEntity)entity).isChild() && !entity.isImmuneToFire())
+//			goalSelector.addGoal(0, new RoughAISunlightBurnGoal(entity, false));
+//
+//		if (helmetBurn)
+//			goalSelector.addGoal(0, new RoughAISunlightBurnGoal(entity, true));
+//
+//		if (allowedBreakBlocks.size() > 0)
+//			goalSelector.addGoal(1, new RoughAIBreakBlocksGoal(entity, 8, allowedBreakBlocks));
 	}
 	
 	@Override
@@ -167,7 +170,7 @@ public class ZombieFeatures extends EntityFeatures {
 	
 	@Override
 	public void onAttack(Entity attacker, Entity immediateAttacker, Entity target, LivingAttackEvent event) {
-		
+
 		if (target instanceof LivingEntity && hungerChance > 0)
 			FeatureHelper.addEffect((LivingEntity)target, Effects.HUNGER, hungerDuration, 0, hungerChance, true, 4);
 	}
