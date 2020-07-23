@@ -56,31 +56,31 @@ public class ZombiePigmanFeatures extends EntityFeatures {
 	@Override
 	public void addAI(EntityJoinWorldEvent event, MobEntity entity, GoalSelector goalSelector, GoalSelector targetSelector) {
 
-		if (!(entity instanceof MobEntity))
-			return;
-
-		if (aggressiveTouch)
-			goalSelector.addGoal(1, new RoughAIAggressiveTouchGoal(entity));
-	
-		if (alwaysAggressive)
-			goalSelector.addGoal(3, new RoughAIAlwaysAggressiveGoal(entity, aggressiveRange));
+//		if (!(entity instanceof MobEntity))
+//			return;
+//
+//		if (aggressiveTouch)
+//			goalSelector.addGoal(1, new RoughAIAggressiveTouchGoal(entity));
+//
+//		if (alwaysAggressive)
+//			goalSelector.addGoal(3, new RoughAIAlwaysAggressiveGoal(entity, aggressiveRange));
 	}
 	
 	@Override
 	public void onBlockBreak(PlayerEntity player, BreakEvent event) {
-		
-		for (EntityType<? extends Entity> entityType : entityTypes) {
-			List<? extends Entity> entities = player.world.getEntitiesWithinAABB(entityType, player.getBoundingBox().expand(aggressiveBlockRange, aggressiveBlockRange, aggressiveBlockRange), ENTITY_TYPE_VALIDATOR);
-			
-			for (Entity entity : entities) {
-				if (aggressiveBlockChance > 0 && entity instanceof MobEntity && player.world.rand.nextInt(aggressiveBlockChance) == 0) {
-					MobEntity mob = (MobEntity) entity;
-					mob.setAttackTarget(player);
-					mob.setRevengeTarget(player);
-					FeatureHelper.playSound(mob, SoundEvents.ENTITY_ZOMBIE_PIGMAN_ANGRY);
-				}
-			}
-		}
+//
+//		for (EntityType<? extends Entity> entityType : entityTypes) {
+//			List<? extends Entity> entities = player.world.getEntitiesWithinAABB(entityType, player.getBoundingBox().expand(aggressiveBlockRange, aggressiveBlockRange, aggressiveBlockRange), ENTITY_TYPE_VALIDATOR);
+//
+//			for (Entity entity : entities) {
+//				if (aggressiveBlockChance > 0 && entity instanceof MobEntity && player.world.rand.nextInt(aggressiveBlockChance) == 0) {
+//					MobEntity mob = (MobEntity) entity;
+//					mob.setAttackTarget(player);
+//					mob.setRevengeTarget(player);
+//					FeatureHelper.playSound(mob, SoundEvents.ENTITY_ZOMBIE_PIGMAN_ANGRY);
+//				}
+//			}
+//		}
 	}
 
     public static final Predicate<Entity> ENTITY_TYPE_VALIDATOR = (entity) -> {
