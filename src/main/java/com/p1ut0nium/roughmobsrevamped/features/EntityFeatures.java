@@ -14,9 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import com.p1ut0nium.roughmobsrevamped.compat.GameStagesCompat;
 import com.p1ut0nium.roughmobsrevamped.config.RoughConfig;
 import com.p1ut0nium.roughmobsrevamped.reference.Constants;
 
+import net.darkhax.gamestages.GameStageHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -74,6 +76,11 @@ public abstract class EntityFeatures {
 	}
 	
 	public boolean bossesEnabled(MobEntity entity) {
+		
+		if (GameStagesCompat.useBossStage()) {
+			PlayerEntity playerClosest = entity.world.getClosestPlayer(entity, -1.0D);
+			return (GameStageHelper.hasAnyOf((ServerPlayerEntity) playerClosest, Constants.ROUGHMOBSALL, Constants.ROUGHMOBSBOSS));
+		}
 		
 		// If boss game stage isn't enabled, then it is ok to spawn bosses
 		return true;

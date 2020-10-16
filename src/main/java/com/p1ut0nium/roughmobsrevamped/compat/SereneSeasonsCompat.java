@@ -15,6 +15,7 @@ import java.util.List;
 import com.p1ut0nium.roughmobsrevamped.config.RoughConfig;
 
 import net.minecraft.world.World;
+import sereneseasons.api.season.SeasonHelper;
 
 public abstract class SereneSeasonsCompat {
 	
@@ -38,6 +39,8 @@ public abstract class SereneSeasonsCompat {
 	}
 	
 	public static String getSeason(World world) {
+		if (registered)
+			return SeasonHelper.getSeasonState(world).getSeason().toString();
 		return null;
 	}
 	
