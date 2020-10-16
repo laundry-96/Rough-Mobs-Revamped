@@ -59,15 +59,18 @@ public class RoughAIBridgeGoal extends Goal {
 			return false;
 		}
 
+		entity.getNavigator().updatePath();
+
 		boolean isDoneExecutingPreviousPath = !(entity.getNavigator().noPath() || entity.getNavigator().getPath().isFinished() && !entity.getNavigator().getPath().reachesTarget());
 		boolean shouldReplace = !entity.getPosition().equals(calculateBlockPlacement());
-		boolean replaceable = entity.world.isBlockPresent(calculateBlockPlacement());
-
+		boolean replaceable = !entity.world.isBlockPresent(calculateBlockPlacement());
+		logger.debug("isDoneExecuting: " + isDoneExecutingPreviousPath + " && repaceable: " + replaceable);
 		return isDoneExecutingPreviousPath && replaceable;
 	}
 
 	protected BlockPos calculateBlockPlacement() {
 		BlockPos blockPlacementPosition = entity.getPosition();
+		entity.setHeadRotation(0 , 0);
 		entity.getLookController().setLookPositionWithEntity(entity.getAttackTarget(), 360, 360);
 		Direction facing = entity.getHorizontalFacing();
 
@@ -80,7 +83,7 @@ public class RoughAIBridgeGoal extends Goal {
 		if(facing.equals(Direction.WEST))
 			blockPlacementPosition = blockPlacementPosition.add(-1, 0, 0);
 
-		return blockPlacementPosition;
+		return blockPlacementPosition.down();
 	}
 
 	@Override
@@ -90,23 +93,20 @@ public class RoughAIBridgeGoal extends Goal {
 
 	@Override
 	public void startExecuting() {
-		this.lastBlockPlacedTime = 0;
 	}
 
 	@Override
 	public void tick() {
 
+		logger.debug("Bridging!");
+
 		if(!entity.onGround)
 			return;
 
-//		logger.debug("Current game time: " + entity.world.getGameTime());
-//		logger.debug("Last pillar placed time: " + this.pillarTime);
-//		logger.debug("Time in between pillars: " + this.pillarTime);
-
 		if (entity.world.getGameTime() > this.lastBlockPlacedTime + this.blockPlacementTime) {
 			BlockPos blockPosition = calculateBlockPlacement();
-			logger.debug("Entity postion: " + entity.getPosition());
-			logger.debug("Block to Place position: " + calculateBlockPlacement());
+//			logger.debug("Entity postion: " + entity.getPosition());
+//			logger.debug("Block to Place position: " + calculateBlockPlacement());
 			this.entity.world.setBlockState(blockPosition.down(), Blocks.COBBLESTONE.getDefaultState());
 			this.entity.setPositionAndUpdate(blockPosition.getX() + 0.5, blockPosition.getY() + 0.0, blockPosition.getZ() + 0.5);
 			//this.entity.getNavigator().tryMoveToXYZ(blockPosition.getX() + 0.5, blockPosition.getY() + 0.0, blockPosition.getZ() + 0.5, 1.0);

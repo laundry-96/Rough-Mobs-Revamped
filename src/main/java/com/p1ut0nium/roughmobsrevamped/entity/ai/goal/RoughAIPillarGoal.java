@@ -58,13 +58,15 @@ public class RoughAIPillarGoal extends Goal {
 			return false;
 		}
 
+		entity.getNavigator().updatePath();
+
 		boolean canReachTarget = !(entity.getNavigator().noPath() || entity.getNavigator().getPath().isFinished());
 		// If player is 1 above zombie, it's better to not pillar since player might be jumping
 		boolean isBelowTarget = entity.getAttackTarget().getPosition().getY() > entity.getPosition().getY() + 1;
 		boolean isBlockAboveFree = entity.world.isAirBlock(new BlockPos(entity.getPosX(), entity.getPosY() + (double)entity.getEyeHeight() + 1.00, entity.getPosZ()));
 
 		if (!canReachTarget && isBelowTarget && isBlockAboveFree) {
-			logger.debug("Executing Pillaring");
+
 			return true;
 		}
 
@@ -78,18 +80,17 @@ public class RoughAIPillarGoal extends Goal {
 
 	@Override
 	public void startExecuting() {
-		this.lastBlockPlacedTime = 0;
 	}
 
 	@Override
 	public void tick() {
 
+		logger.debug("Pillaring!");
+
 		if(!entity.onGround)
 			return;
 
-//		logger.debug("Current game time: " + entity.world.getGameTime());
-//		logger.debug("Last pillar placed time: " + this.pillarTime);
-//		logger.debug("Time in between pillars: " + this.pillarTime);
+		logger.debug("Current game time: " + entity.world.getGameTime());
 
 		if (entity.world.getGameTime() > this.lastBlockPlacedTime + this.blockPlacementTime) {
 			BlockPos blockPosition = this.entity.getPosition();
