@@ -103,6 +103,7 @@ public class RoughConfig {
 	public static int zombieHungerDuration;
 	public static int zombieLeapChance;
 	public static int zombieChampionChance;
+	public static float zombieBuilderChance;
 	public static float zombieLeapHeight;
 	public static List<String> zombieEntities;
 	public static List<? extends String> zombieBreakBlocks;

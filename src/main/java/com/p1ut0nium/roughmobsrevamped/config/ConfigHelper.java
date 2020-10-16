@@ -118,6 +118,7 @@ public class ConfigHelper {
 		RoughConfig.zombieLeapHeight = ConfigHolder.FEATURES.zombieLeapHeight.get().floatValue();
 		RoughConfig.zombieBreakBlocks = ConfigHolder.FEATURES.zombieBreakBlocks.get();
 		RoughConfig.zombieChampionNames = ConfigHolder.FEATURES.zombieChampionNames.get();
+		RoughConfig.zombieBuilderChance = ConfigHolder.FEATURES.zombieBuilderChance.get().floatValue();
 		
 		RoughConfig.featuresEnabled.put("zombie", ConfigHolder.FEATURES.zombieFeaturesEnabled.get());
 		RoughConfig.entities.put("zombie", ConfigHolder.FEATURES.zombieEntities.get());

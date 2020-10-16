@@ -34,9 +34,11 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.Effects;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ZombieFeatures extends EntityFeatures {
-	
+	public static Logger logger = LogManager.getLogger(Constants.MODID);
 	private static final String BOSS_MINION = Constants.unique("bossMinion");
 	
 	private float leapHeight; 
@@ -56,6 +58,8 @@ public class ZombieFeatures extends EntityFeatures {
 
 	private List<? extends String> breakBlocks;
 	private List<Block> allowedBreakBlocks;
+
+	private float builderChance;
 	
 	public ZombieFeatures() {
 		super("zombie", Constants.ZOMBIES);
@@ -113,6 +117,8 @@ public class ZombieFeatures extends EntityFeatures {
 		
 		breakBlocks = RoughConfig.zombieBreakBlocks;
 
+		builderChance = RoughConfig.zombieBuilderChance;
+
 		boolean isBoss = false;
 		boolean useDefaultValues = false;
 		equipApplier.initConfig(isBoss, useDefaultValues);
@@ -131,21 +137,27 @@ public class ZombieFeatures extends EntityFeatures {
 		if (!(entity instanceof MobEntity))
 			return;
 
-		targetSelector.addGoal(0, new RoughAIAlwaysAggressiveGoal(entity, PlayerEntity.class, false, 500.0));
-		goalSelector.addGoal(0, new RoughAIPillarGoal(entity, 50));
-		goalSelector.addGoal(0, new RoughAIBridgeGoal(entity, 50));
-		
-//		if (leapChance > 0)
-//			goalSelector.addGoal(1, new RoughAILeapAtTargetChancedGoal(entity, leapHeight, leapChance));
-//
-//		if (babyBurn && entity instanceof ZombieEntity && ((ZombieEntity)entity).isChild() && !entity.isImmuneToFire())
-//			goalSelector.addGoal(0, new RoughAISunlightBurnGoal(entity, false));
-//
-//		if (helmetBurn)
-//			goalSelector.addGoal(0, new RoughAISunlightBurnGoal(entity, true));
-//
-//		if (allowedBreakBlocks.size() > 0)
-//			goalSelector.addGoal(1, new RoughAIBreakBlocksGoal(entity, 8, allowedBreakBlocks));
+		// Zombies can build!
+		if (builderChance > 0.0f) {
+			float pillarChance = 1.0f - entity.getRNG().nextFloat();
+			logger.debug("Should Zombie build?: " + builderChance + ">=" + pillarChance + " : " + (builderChance >= pillarChance));
+			if (true || builderChance >= pillarChance) {
+				goalSelector.addGoal(3, new RoughAIPillarGoal(entity, entity.world.getRandom().nextInt(40)));
+				goalSelector.addGoal(3, new RoughAIBridgeGoal(entity, entity.world.getRandom().nextInt(40)));
+			}
+		}
+
+		if (leapChance > 0)
+			goalSelector.addGoal(1, new RoughAILeapAtTargetChancedGoal(entity, leapHeight, leapChance));
+
+		if (babyBurn && entity instanceof ZombieEntity && ((ZombieEntity)entity).isChild() && !entity.isImmuneToFire())
+			goalSelector.addGoal(0, new RoughAISunlightBurnGoal(entity, false));
+
+		if (helmetBurn)
+			goalSelector.addGoal(0, new RoughAISunlightBurnGoal(entity, true));
+
+		if (allowedBreakBlocks.size() > 0)
+			goalSelector.addGoal(1, new RoughAIBreakBlocksGoal(entity, 8, allowedBreakBlocks));
 	}
 	
 	@Override

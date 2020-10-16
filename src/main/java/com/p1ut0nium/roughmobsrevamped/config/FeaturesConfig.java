@@ -55,6 +55,7 @@ public class FeaturesConfig {
 	final IntValue zombieHungerDuration;
 	final IntValue zombieLeapChance;
 	final IntValue zombieChampionChance;
+	final DoubleValue zombieBuilderChance;
 	final DoubleValue zombieLeapHeight;
 	final ConfigValue<List<String>> zombieEntities;
 	final ConfigValue<List<? extends String>> zombieBreakBlocks;
@@ -209,6 +210,10 @@ public class FeaturesConfig {
 		zombieChampionNames = builder
 				.comment("A list of names to be used by Zombie Champions.")
 				.defineList("Zombie_ChampionNames", Arrays.asList(Constants.ZOMBIE_CHAMP_NAMES), RoughConfig.ELEMENT_STRING_VALIDATOR);
+		zombieBuilderChance = builder
+				.comment("Percent chance that a specific zombie can pillar and bridge",
+						"Set to 0.0 to disable this feature")
+				.defineInRange("Zombie_BuilderChance", .7F, 0.0F, 1.0F);
 		builder.pop();
 	
 		// Zombie Pigman Features
