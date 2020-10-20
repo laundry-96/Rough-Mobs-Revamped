@@ -86,11 +86,11 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.15.2-31.1.41'
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-	compile "net.darkhax.gamestages:GameStages-${minecraft_version}:${gameStages_version}"
-	compile "net.darkhax.bookshelf:Bookshelf-${minecraft_version}:${bookshelf_version}"
-	compile "serene-seasons:SereneSeasons-${minecraft_version}:${sereneSeasons_version}:universal"
+    compile fg.deobf(project.dependencies.create("net.darkhax.bookshelf:Bookshelf-${minecraft_version}:${bookshelf_version}"))
+    compile fg.deobf(project.dependencies.create("net.darkhax.gamestages:GameStages-${minecraft_version}:${gameStages_version}"))
+    compile fg.deobf(project.dependencies.create("serene-seasons:SereneSeasons-${minecraft_version}:${sereneSeasons_version}:universal"))
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
