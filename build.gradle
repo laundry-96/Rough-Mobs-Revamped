@@ -78,19 +78,20 @@ minecraft {
 }
 
 repositories {
-	maven { url 'https://maven.mcmoddev.com' }
-	maven {
-		name = "CurseForge"
+    maven {
+        name = "CurseForge"
         url = "https://minecraft.curseforge.com/api/maven/"
     }
+    maven { url "https://maven.blamejared.com" }
+    maven { url "https://www.cursemaven.com" }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    compile fg.deobf(project.dependencies.create("net.darkhax.bookshelf:Bookshelf-${minecraft_version}:${bookshelf_version}"))
-    compile fg.deobf(project.dependencies.create("net.darkhax.gamestages:GameStages-${minecraft_version}:${gameStages_version}"))
-    compile fg.deobf(project.dependencies.create("serene-seasons:SereneSeasons-${minecraft_version}:${sereneSeasons_version}:universal"))
+    compile "net.darkhax.bookshelf:Bookshelf-${minecraft_version}:${bookshelf_version}"
+    compile "net.darkhax.gamestages:GameStages-${minecraft_version}:${gameStages_version}"
+    compile "com.github.glitchfiend.biomesoplenty:SereneSeasons:${minecraft_version}-${sereneSeasons_version}:universal"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
